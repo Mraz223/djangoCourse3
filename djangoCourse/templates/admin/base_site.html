@@ -1,0 +1,137 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Панель DjangoCourse{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}" style="color: #fff; text-decoration: none;">
+    🐍 Панель администратора DjangoCourse
+  </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    /* Общие стили */
+    body {
+        background-color: #f5f7fb;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Шапка админки */
+    #header {
+        background-color: #0d6efd;
+        border-bottom: 3px solid #0b5ed7;
+    }
+
+    #branding h1, #branding h1 a {
+        color: #fff !important;
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+    }
+
+    #user-tools {
+        color: #fff;
+        font-size: 14px;
+    }
+
+    #user-tools a {
+        color: #ffe082;
+        font-weight: 500;
+    }
+
+    #user-tools a:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    /* Главная страница админки */
+    .dashboard #content {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        padding: 25px;
+    }
+
+    .module caption {
+        background-color: #0d6efd;
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 10px;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .module {
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 25px;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Таблицы */
+    table {
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    th {
+        background-color: #e8f0ff;
+        color: #333;
+        font-weight: 600;
+    }
+
+    /* Кнопки */
+    .button, input[type=submit], .submit-row input {
+        background: #0d6efd;
+        border: 1px solid #0b5ed7;
+        border-radius: 6px;
+        color: white;
+        padding: 6px 14px;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .button:hover, input[type=submit]:hover, .submit-row input:hover {
+        background: #0b5ed7;
+    }
+
+    /* Панель поиска */
+    #searchbar {
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        padding: 6px 10px;
+    }
+
+    /* Футер */
+    #footer {
+        background: #e9ecef;
+        border-top: 1px solid #d1d1d1;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    /* Анимация */
+    .module {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .module:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block footer %}
+<div id="footer">
+  © 2025 DjangoCourse | Разработано для учебного проекта
+</div>
+{% endblock %}

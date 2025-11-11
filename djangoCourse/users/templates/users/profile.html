@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container fade-in">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">👤 Профиль пользователя</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-center">
+                            {% if profile.avatar %}
+                                <img src="{{ profile.avatar.url }}" alt="Аватар" class="img-thumbnail mb-3 avatar-pulse" style="width: 150px; height: 150px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-3 avatar-placeholder" style="width: 150px; height: 150px; margin: 0 auto;">
+                                    <span class="text-muted">Нет фото</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <h3 class="username">{{ user.username }}</h3>
+                            <p class="text-muted">Зарегистрирован: {{ user.date_joined|date:"d.m.Y" }}</p>
+                            
+                            {% if profile.bio %}
+                                <p class="bio-text">{{ profile.bio }}</p>
+                            {% else %}
+                                <p class="text-muted">Расскажите о себе...</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <h4>Редактировать профиль</h4>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_avatar" class="form-label">Аватар</label>
+                            {{ form.avatar }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_bio" class="form-label">О себе</label>
+                            {{ form.bio }}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-save">Сохранить изменения</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm achievements-card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">🏆 Твои достижения</h3>
+                </div>
+                <div class="card-body">
+                    {% if achievements %}
+                        <div class="list-group">
+                            {% for achievement in achievements %}
+                                <div class="list-group-item achievement-item">
+                                    <h5 class="mb-1">{{ achievement.title }}</h5>
+                                    <p class="mb-1">{{ achievement.description }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">У вас пока нет достижений.</p>
+                        <p>Решайте задачи и получайте достижения!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 8px 12px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        transform: scale(1.02);
+    }
+    
+    .list-group-item {
+        border: 1px solid #e9ecef;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+    
+    .achievement-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-left: 4px solid #28a745;
+    }
+    
+    .avatar-pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    .avatar-placeholder:hover {
+        animation: shake 0.5s ease;
+    }
+    
+    .btn-save {
+        transition: all 0.3s ease;
+    }
+    
+    .btn-save:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .username {
+        animation: slideInFromLeft 0.8s ease;
+    }
+    
+    .bio-text {
+        animation: fadeIn 1s ease;
+    }
+    
+    .achievements-card {
+        animation: slideInFromRight 0.8s ease;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+    
+    @keyframes slideInFromLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .fade-in { animation: fadeIn 0.6s ease; }
+    .col-md-8 { animation-delay: 0.1s; }
+    .col-md-4 { animation-delay: 0.3s; }
+</style>
+{% endblock %}

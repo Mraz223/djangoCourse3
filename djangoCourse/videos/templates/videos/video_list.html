@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">📚 Уроки Python</h1>
+    
+    <div class="row">
+        {% for video in videos %}
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title" style="font-size: 24px;">Урок {{ forloop.counter }}</h2>
+                    <p class="card-text">{{ video.title }}</p>
+                    <a href="{% url 'video_detail' video.id %}" class="btn btn-outline-primary btn-sm">Смотреть урок</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                Уроки скоро будут добавлены!
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 15px;
+        }
+        .card {
+            margin: 5px 0;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ task.title }}</h2>
+    <p>{{ task.description }}</p>
+    {% if task.input_data %}
+    <div class="mt-3">
+        <h5>Пример входных данных:</h5>
+        <pre>{{ task.input_data }}</pre>
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="code" class="form-label">Ваш код:</label>
+            <textarea name="code" id="code" rows="10" class="form-control">{{ user_code }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Проверить</button>
+    </form>
+    
+    {% if output %}
+        {% if is_correct %}
+            <div class="mt-3 alert alert-success">
+                Вы решили задачу правильно!
+            </div>
+        {% else %}
+            <div class="mt-3 alert alert-danger">
+                Ошибка: {{ output }}
+            </div>
+        {% endif %}
+    {% endif %}
+    
+</div>
+{% endblock %}

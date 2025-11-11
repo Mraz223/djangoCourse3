@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow-sm" style="max-width: 400px; width: 100%;">
+    <div class="card-body p-4">
+      <h2 class="text-center mb-4">Вход на сайт</h2>
+      
+      {% if form.errors %}
+        <div class="alert alert-danger">
+          <p class="mb-0">Пожалуйста, введите правильные имя пользователя и пароль.</p>
+          <p class="mb-0 small">Оба поля могут быть чувствительны к регистру.</p>
+        </div>
+      {% endif %}
+      
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="id_username" class="form-label fw-medium">Username</label>
+          <input type="text" name="username" class="form-control" id="id_username" 
+                 value="{{ form.username.value|default:'' }}" required>
+        </div>
+        <div class="mb-3">
+          <label for="id_password" class="form-label fw-medium">Password</label>
+          <input type="password" name="password" class="form-control" id="id_password" required>
+        </div>
+        
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-primary">Войти</button>
+        </div>
+      </form>
+      
+      <div class="text-center mt-3">
+        <p class="mb-0">Нет аккаунта? <a href="{% url 'register' %}" class="text-decoration-none">Зарегистрироваться</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+      if (!input.classList.contains('btn')) {
+        input.classList.add('form-control');
+      }
+    });
+  });
+</script>
+{% endblock %}

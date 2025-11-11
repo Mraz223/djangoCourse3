@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container fade-in">
+    <h1 class="text-center mb-4">💻 Список задач</h1>
+    
+    <div class="row">
+        {% for task in page_obj %}
+        <div class="col-md-6 col-lg-4 mb-4 fade-in">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+            
+                  
+                    <p class="card-text">{{ task.description|truncatewords:20 }}</p>
+                    <a href="{% url 'task_detail' task.id %}" class="btn btn-primary">Решить</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 fade-in">
+            <p class="text-center">Задачи пока не добавлены.</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Page navigation" class="fade-in">
+        <ul class="pagination justify-content-center mt-4">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo; Первая</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                </li>
+            {% endif %}
+            
+            <li class="page-item disabled">
+                <span class="page-link">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+            
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+<style>
+    .fade-in {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .col-md-6.col-lg-4.mb-4.fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .col-md-6.col-lg-4.mb-4.fade-in:nth-child(2) { animation-delay: 0.2s; }
+    .col-md-6.col-lg-4.mb-4.fade-in:nth-child(3) { animation-delay: 0.3s; }
+    .col-md-6.col-lg-4.mb-4.fade-in:nth-child(4) { animation-delay: 0.4s; }
+    .col-md-6.col-lg-4.mb-4.fade-in:nth-child(5) { animation-delay: 0.5s; }
+    .col-md-6.col-lg-4.mb-4.fade-in:nth-child(6) { animation-delay: 0.6s; }
+</style>
+{% endblock %}
