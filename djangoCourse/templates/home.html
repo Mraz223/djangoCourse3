@@ -1,11 +1,112 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Главная - DjangoCourse{% endblock %}
+{% block title %}Главная — DjangoCourse{% endblock %}
 
 {% block content %}
-    <div class="text-center">
-        <h1>Добро пожаловать в DjangoCourse!</h1>
-        <p class="lead">Изучай программирование через задачи, видео и достижения.</p>
-        <a href="{% url 'task_list' %}" class="btn btn-primary btn-lg">Перейти к задачам</a>
+<section class="py-5">
+  <div class="container">
+    <!-- Инфо-блок о платформе + быстрые ссылки -->
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card p-4 h-100">
+          <h1 class="card-title mb-3">О платформе</h1>
+          <p class="text-secondary mb-3">
+            DjangoCourse — удобное место для изучения веб-разработки. Смотри видеоуроки,
+            веди прогресс в профиле и возвращайся к материалам, когда удобно.
+          </p>
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-2">• Темы: Python, Django, базы данных, ORM, шаблоны.</li>
+            <li class="mb-2">• Формат: короткие видео, разборы, полезные шпаргалки.</li>
+            <li>• Подходит новичкам и тем, кто освежает знания.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card p-4 h-100">
+          <h2 class="card-title mb-3">Новости и обновления</h2>
+          <ul class="list-unstyled mb-0 text-secondary small">
+            <li class="mb-3">
+              <strong>11 ноя 2025:</strong><br>
+              Обновлён дизайн сайта и улучшена адаптация под мобильные устройства.
+            </li>
+            <li class="mb-3">
+              <strong>5 ноя 2025:</strong><br>
+              Добавлен новый раздел с теорией и примерами по Django ORM.
+            </li>
+            <li>
+              <strong>27 окт 2025:</strong><br>
+              Исправлены ошибки авторизации и улучшена скорость загрузки страниц.
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+
+    <!-- Три аккуратных блока без «переходов на задачи» -->
+    <div class="row g-4 mt-1">
+      <div class="col-md-4">
+        <div class="card h-100 p-4">
+          <h2 class="card-title mb-2">Как устроены уроки</h2>
+          <p class="text-secondary mb-0">
+            Короткие разборы с примерами кода и пояснениями. Возвращайся к ним в любое время.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 p-4">
+          <h2 class="card-title mb-2">Материалы и конспекты</h2>
+          <p class="text-secondary mb-0">
+            Сводные заметки по темам: модели, маршрутизация, шаблоны, формы и ORM.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 p-4">
+          <h2 class="card-title mb-2">Прогресс и профиль</h2>
+          <p class="text-secondary mb-3">
+            Отслеживай свой прогресс и обновляй информацию в профиле.
+          </p>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Небольшой FAQ -->
+    <div class="card p-4 mt-4">
+      <h3 class="card-title mb-3">FAQ</h3>
+      <div class="accordion" id="faq">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="q1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1" aria-expanded="true" aria-controls="a1">
+              Как начать обучение?
+            </button>
+          </h2>
+          <div id="a1" class="accordion-collapse collapse show" aria-labelledby="q1" data-bs-parent="#faq">
+            <div class="accordion-body text-secondary">
+              Зарегистрируйся или войди в аккаунт и открой раздел с видеоуроками.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="q2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2" aria-expanded="false" aria-controls="a2">
+              Где найти материалы по темам?
+            </button>
+          </h2>
+        <div id="a2" class="accordion-collapse collapse" aria-labelledby="q2" data-bs-parent="#faq">
+            <div class="accordion-body text-secondary">
+              В разделах «Видеоуроки» и «О проекте» есть ссылки на конспекты и шпаргалки.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 {% endblock %}

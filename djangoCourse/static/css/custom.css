@@ -1,0 +1,202 @@
+/* =========
+   БАЗА ТЕМЫ
+   ========= */
+   :root{
+    --bg: #f7f8fc;
+    --surface: #ffffff;
+    --surface-2: #f1f3f9;
+    --text: #15192c;
+    --muted: #6c7485;
+    --border: #e7e9f3;
+    --primary: #4f6bff;
+    --primary-2: #6f86ff;
+    --ring: rgba(79,107,255,.25);
+    --shadow: 0 10px 30px -18px rgba(16,24,40,.35);
+  }
+  
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg: #0f1221;
+      --surface: #121632;
+      --surface-2: #0f1430;
+      --text: #eef1ff;
+      --muted: #9aa3c7;
+      --border: #1d224a;
+      --primary: #7c8cff;
+      --primary-2: #95a3ff;
+      --ring: rgba(124,140,255,.35);
+      --shadow: 0 14px 48px -22px rgba(0,0,0,.8);
+    }
+  }
+  
+  *{ box-sizing: border-box; }
+  html, body { height: 100%; }
+  body{
+    background: radial-gradient(1400px 600px at -10% -10%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 60%),
+                radial-gradient(1200px 700px at 110% 0%, color-mix(in oklab, var(--primary-2) 12%, transparent), transparent 60%),
+                var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+    line-height: 1.6;
+  }
+  
+  /* =========
+     НАВБАР
+     ========= */
+  .app-navbar{
+    backdrop-filter: saturate(140%) blur(14px);
+    background: color-mix(in oklab, var(--surface) 70%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner{ padding-block: .6rem; }
+  .navbar .navbar-brand{ color: var(--text); letter-spacing: .2px; }
+  .navbar .nav-link{
+    color: var(--muted);
+    transition: color .18s ease, opacity .18s ease;
+  }
+  .navbar .nav-link:hover{ color: var(--text); }
+  .navbar .btn{ margin-left: .25rem; }
+  
+  /* Аватар и меню пользователя */
+  .avatar-circle{
+    width: 34px; height: 34px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: color-mix(in oklab, var(--surface-2) 80%, black 0%);
+    color: var(--text); font-weight: 700; letter-spacing: .3px;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--border) 80%, transparent);
+  }
+  .dropdown-menu{
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .dropdown-item{ color: var(--text); }
+  .dropdown-item:hover{ background: color-mix(in oklab, var(--primary) 12%, var(--surface)); }
+  
+  /* =========
+     КНОПКИ
+     ========= */
+  .btn{
+    border-radius: 14px;
+    padding: .55rem .9rem;
+    font-weight: 600;
+    letter-spacing: .2px;
+    transition: transform .06s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  .btn:active{ transform: translateY(1px); }
+  
+  .btn-primary{
+    background: linear-gradient(180deg, var(--primary), var(--primary-2));
+    border-color: transparent;
+    box-shadow: 0 8px 24px -12px var(--ring);
+  }
+  .btn-primary:hover{ filter: saturate(1.05) brightness(1.02); }
+  
+  .btn-outline-primary{
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+  .btn-outline-primary:hover{
+    background: var(--primary);
+    color: #fff;
+  }
+  
+  /* =========
+     КАРТОЧКИ
+     ========= */
+  .app-content > .row .card,
+  .card{
+    border: 0;
+    background: linear-gradient(180deg, var(--surface), color-mix(in oklab, var(--surface-2) 70%, transparent));
+    color: var(--text);
+    border-radius: 18px;
+    box-shadow: var(--shadow), inset 0 0 0 1px color-mix(in oklab, var(--border) 80%, transparent);
+  }
+  .card .card-title{ font-weight: 700; }
+  
+  /* =========
+     ФОРМЫ
+     ========= */
+  .form-control, .form-select, .form-check-input{
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 14px;
+  }
+  .form-control:focus, .form-select:focus{
+    border-color: var(--primary-2);
+    box-shadow: 0 0 0 .2rem var(--ring);
+  }
+  
+  /* =========
+     ТАБЛИЦЫ
+     ========= */
+  .table{
+    --bs-table-bg: var(--surface-2);
+    --bs-table-color: var(--text);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .table thead th{
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom-color: var(--border);
+  }
+  .table tbody tr{ border-color: var(--border); }
+  .table tbody tr:hover{
+    background: color-mix(in oklab, var(--primary) 8%, var(--surface-2));
+  }
+  
+  /* =========
+     ПАГИНАЦИЯ
+     ========= */
+  .pagination{
+    --bs-pagination-bg: var(--surface-2);
+    --bs-pagination-color: var(--text);
+    --bs-pagination-border-color: var(--border);
+    --bs-pagination-hover-bg: color-mix(in oklab, var(--primary) 12%, var(--surface-2));
+    --bs-pagination-hover-color: var(--text);
+    --bs-pagination-focus-box-shadow: 0 0 0 .2rem var(--ring);
+    --bs-pagination-active-bg: var(--primary-2);
+    --bs-pagination-active-border-color: transparent;
+  }
+  .page-link{ border-radius: 12px; }
+  
+  /* =========
+     АЛЕРТЫ
+     ========= */
+  .app-alert{
+    border: 1px solid var(--border);
+    background: color-mix(in oklab, var(--surface) 92%, var(--primary) 0%);
+    color: var(--text);
+    border-radius: 14px;
+  }
+  
+  /* =========
+     ФУТЕР/ССЫЛКИ
+     ========= */
+  .app-footer{
+    margin-top: 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    background: transparent;
+  }
+  .text-secondary{ color: var(--muted) !important; }
+  .link-secondary{ color: var(--muted); text-decoration: none; }
+  .link-secondary:hover{ color: var(--text); text-decoration: underline; }
+  
+  /* =========
+     МЕЛОЧИ
+     ========= */
+  img{ border-radius: 12px; max-width: 100%; height: auto; }
+  code, pre{ font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+  
+  
