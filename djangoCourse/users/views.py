@@ -62,30 +62,24 @@ def register(request):
         if form.is_valid():
             user = form.save()
 
-            # Пытаемся отправить письмо, но НЕ даём регистрации упасть
+            # --- отправка письма через Яндекс SMTP ---
             if user.email:
                 try:
                     send_mail(
-                        subject='Добро пожаловать в DjangoCourse! 🐍',
-                        message=(
-                            f"Привет, {user.username}!\n\n"
-                            "Добро пожаловать в DjangoCourse! Теперь ты можешь:\n"
-                            "• Смотреть видео-уроки по Python\n"
-                            "• Решать практические задачи\n"
-                            "• Получать достижения\n\n"
-                            "Удачи в обучении! 🚀"
-                        ),
-                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        subject='Добро пожаловать!',
+                        message=f'{user.username}, спасибо за регистрацию на сайте DjangoCourse!',
+                        from_email=settings.EMAIL_HOST_USER,
                         recipient_list=[user.email],
-                        fail_silently=True,  # <–– важно, чтобы не ронять сайт
+                        fail_silently=False,   # важно для отладки
                     )
-                    print(f"✅ Email отправлен новому пользователю: {user.username}")
+                    print(f"✅ Email отправлен пользователю: {user.email}")
                 except Exception as e:
-                    # На проде опционально логируй, но не падай
-                    print(f"⚠️ Ошибка при отправке email: {e}")
+                    print(f"❌ Ошибка при отправке email: {e}")
 
+            # сообщение пользователю
             messages.success(request, "Вы успешно зарегистрировались! Теперь можно войти.")
             return redirect("login")
+
     else:
         form = SimpleRegisterForm()
 

@@ -144,13 +144,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mail.ru'  # ИЗМЕНИ С gmail.com НА mail.ru
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'testmail8305@mail.ru'
-EMAIL_HOST_PASSWORD = 'mXAnRglUXEbdi3ILqrxw'
-DEFAULT_FROM_EMAIL = 'testmail8305@mail.ru'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")       # берём из Render
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
