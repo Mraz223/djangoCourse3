@@ -150,3 +150,8 @@ def register_api(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
     
     return JsonResponse({'status': 'error', 'message': 'Only POST allowed'})
+
+
+def custom_logout(request):
+    logout(request)
+    return redirect('login') 
