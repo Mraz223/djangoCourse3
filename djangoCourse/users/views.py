@@ -14,6 +14,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.contrib import messages
 
 
 class SimpleRegisterForm(forms.Form):
@@ -60,42 +61,35 @@ def register(request):
         form = SimpleRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
-           
-            try:
-                send_mail(
-                    'Добро пожаловать в DjangoCourse! 🐍',
-                    f'''Привет, {user.username}!
 
-Добро пожаловать в DjangoCourse! Теперь ты можешь:
-• Смотреть видео-уроки по Python
-• Решать практические задачи
-• Получать достижения
-• Сохранять свой прогресс
+            # Пытаемся отправить письмо, но НЕ даём регистрации упасть
+            if user.email:
+                try:
+                    send_mail(
+                        subject='Добро пожаловать в DjangoCourse! 🐍',
+                        message=(
+                            f"Привет, {user.username}!\n\n"
+                            "Добро пожаловать в DjangoCourse! Теперь ты можешь:\n"
+                            "• Смотреть видео-уроки по Python\n"
+                            "• Решать практические задачи\n"
+                            "• Получать достижения\n\n"
+                            "Удачи в обучении! 🚀"
+                        ),
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        recipient_list=[user.email],
+                        fail_silently=True,  # <–– важно, чтобы не ронять сайт
+                    )
+                    print(f"✅ Email отправлен новому пользователю: {user.username}")
+                except Exception as e:
+                    # На проде опционально логируй, но не падай
+                    print(f"⚠️ Ошибка при отправке email: {e}")
 
-Начни обучение: http://127.0.0.1:8000/
-
-Удачи в изучении программирования! 🚀
-
-С уважением,
-Команда DjangoCourse''',
-                    settings.DEFAULT_FROM_EMAIL,
-                    [user.email],  
-                    fail_silently=False,
-                )
-                print(f"✅ Email отправлен новому пользователю: {user.username}")
-            except Exception as e:
-                print(f"⚠️ Email не отправлен: {e}")
-            
+            messages.success(request, "Вы успешно зарегистрировались! Теперь можно войти.")
             return redirect("login")
     else:
         form = SimpleRegisterForm()
+
     return render(request, "registration/register.html", {"form": form})
-
-
-def custom_logout(request):
-    logout(request)
-    return redirect('login')
 
 
 @login_required
