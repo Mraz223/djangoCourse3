@@ -1,14 +1,10 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Achievement
-from django import forms
+from .models import Achievement, Profile
 from django.contrib.auth.models import User
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from django.contrib.auth import logout
-from .models import Profile
-from .forms import ProfileUpdateForm
+from .forms import ProfileUpdateForm, SimpleRegisterForm
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse
@@ -17,69 +13,31 @@ import json
 from django.contrib import messages
 
 
-class SimpleRegisterForm(forms.Form):
-    username = forms.CharField(
-        max_length=150,
-        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-    )
-    email = forms.EmailField(required=True, help_text="Required. Enter a valid email address.")  # ДОБАВЬ ЭТО
-    password = forms.CharField(
-        widget=forms.PasswordInput,
-        help_text="Your password must contain at least 8 characters and can't be entirely numeric."
-    )
-    
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        if User.objects.filter(username=username).exists():
-            raise ValidationError("A user with that username already exists.")
-        return username
-    
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if User.objects.filter(email=email).exists():
-            raise ValidationError("A user with that email already exists.")
-        return email
-    
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        try:
-            validate_password(password)
-        except ValidationError as e:
-            raise ValidationError(e.messages)
-        return password
-    
-    def save(self):
-        username = self.cleaned_data['username']
-        email = self.cleaned_data['email']  
-        password = self.cleaned_data['password']
-        user = User.objects.create_user(username=username, email=email, password=password)  # ДОБАВЬ EMAIL
-        return user
+
 
 
 def register(request):
     if request.method == "POST":
         form = SimpleRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save()  # UserCreationForm сам создаёт пользователя
 
-            # --- отправка письма через Яндекс SMTP ---
+            # Отправка письма (если указан email)
             if user.email:
                 try:
                     send_mail(
-                        subject='Добро пожаловать!',
-                        message=f'{user.username}, спасибо за регистрацию на сайте DjangoCourse!',
-                        from_email=settings.EMAIL_HOST_USER,
+                        subject="Добро пожаловать!",
+                        message=f"{user.username}, спасибо за регистрацию на сайте DjangoCourse!",
+                        from_email=settings.DEFAULT_FROM_EMAIL,
                         recipient_list=[user.email],
-                        fail_silently=False,   # важно для отладки
+                        fail_silently=True,   # чтобы из-за письма сайт не падал
                     )
-                    print(f"✅ Email отправлен пользователю: {user.email}")
+                    print(f"✅ Письмо отправлено пользователю: {user.email}")
                 except Exception as e:
-                    print(f"❌ Ошибка при отправке email: {e}")
+                    print(f"❌ Ошибка при отправке письма: {e}")
 
-            # сообщение пользователю
             messages.success(request, "Вы успешно зарегистрировались! Теперь можно войти.")
             return redirect("login")
-
     else:
         form = SimpleRegisterForm()
 
